@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #080b12;
+  --foreground: #f8fafc;
 }
 
 @theme inline {
@@ -12,15 +12,88 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+body {
+  min-height: 100%;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+.poster-marquee-rows {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.poster-marquee-viewport {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+}
+
+.poster-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: poster-marquee-left 75s linear infinite;
+}
+
+.poster-marquee-viewport-reverse .poster-marquee-track {
+  animation-name: poster-marquee-right;
+  animation-duration: 88s;
+}
+
+.poster-marquee-group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 0.375rem;
+}
+
+.poster-marquee-card {
+  display: block;
+  width: 6rem;
+  flex: 0 0 6rem;
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+
+.poster-marquee-viewport:hover .poster-marquee-track,
+.poster-marquee-viewport:focus-within .poster-marquee-track,
+.poster-marquee[data-paused="true"] .poster-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes poster-marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes poster-marquee-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (min-width: 640px) {
+  .poster-marquee-card {
+    width: 7rem;
+    flex-basis: 7rem;
+  }
+
+  .poster-marquee-group {
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster-marquee-track {
+    animation: none;
+  }
 }
