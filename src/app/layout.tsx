@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import PosterMarquee from "@/components/PosterMarquee";
+import ThemeToggle from "@/components/ThemeToggle";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -43,6 +44,12 @@ const navLinks = [
   { label: "Where to Watch", href: "/where-to-watch" },
 ];
 
+const movieMenuLinks = [
+  { label: "Browse Movies", href: "/movies" },
+  { label: "Trending Movies", href: "/trending" },
+  { label: "Browse Genres", href: "/genres" },
+];
+
 export default function RootLayout({
   children,
 }: {
@@ -69,15 +76,33 @@ export default function RootLayout({
               aria-label="Main navigation"
               className="hidden items-center gap-5 lg:flex"
             >
-              {navLinks.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="text-sm font-medium text-gray-300 transition hover:text-red-400"
-                >
-                  {item.label}
-                </Link>
-              ))}
+              <details className="group relative">
+                <summary className="flex cursor-pointer list-none items-center gap-1 text-sm font-medium text-gray-300 transition hover:text-red-400 focus:outline-none focus:ring-2 focus:ring-red-500">
+                  Movies <span aria-hidden="true">⌄</span>
+                </summary>
+                <div className="absolute left-0 top-full z-50 mt-3 min-w-48 rounded-xl border border-white/10 bg-[#111621] p-2 shadow-2xl">
+                  {movieMenuLinks.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="block rounded-lg px-3 py-2.5 text-sm text-gray-200 transition hover:bg-white/10 hover:text-red-400"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </details>
+              {navLinks
+                .filter((item) => item.href !== "/movies")
+                .map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="text-sm font-medium text-gray-300 transition hover:text-red-400"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
             </nav>
 
             <form
@@ -103,6 +128,8 @@ export default function RootLayout({
                 Search
               </button>
             </form>
+
+            <ThemeToggle />
 
             <details className="relative lg:hidden">
               <summary className="flex cursor-pointer list-none items-center gap-2 rounded-lg border border-white/15 px-3 py-2 text-sm font-semibold hover:bg-white/10">
@@ -133,15 +160,33 @@ export default function RootLayout({
                 </form>
 
                 <nav aria-label="Mobile navigation" className="grid gap-1">
-                  {navLinks.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="rounded-lg px-3 py-3 text-sm text-gray-200 hover:bg-white/10 hover:text-red-400"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
+                  <details className="group">
+                    <summary className="flex cursor-pointer list-none items-center justify-between rounded-lg px-3 py-3 text-sm text-gray-200 hover:bg-white/10 hover:text-red-400">
+                      Movies <span aria-hidden="true">⌄</span>
+                    </summary>
+                    <div className="grid gap-1 pl-3">
+                      {movieMenuLinks.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className="rounded-lg px-3 py-2 text-sm text-gray-300 hover:bg-white/10 hover:text-red-400"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </details>
+                  {navLinks
+                    .filter((item) => item.href !== "/movies")
+                    .map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="rounded-lg px-3 py-3 text-sm text-gray-200 hover:bg-white/10 hover:text-red-400"
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
                 </nav>
               </div>
             </details>
