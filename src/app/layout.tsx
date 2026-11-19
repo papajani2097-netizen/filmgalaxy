@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
@@ -224,6 +223,14 @@ export default function RootLayout({
                 className="hover:text-white"
               >
                 YouTube
+              </a>
+              <a
+                href="https://trafficpeak.io"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                Boost Your Website Traffic with TrafficPeak
               </a>
               {navLinks.slice(1).map((item) => (
                 <Link key={item.href} href={item.href} className="hover:text-white">
